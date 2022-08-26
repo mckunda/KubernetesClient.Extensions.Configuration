@@ -176,7 +176,7 @@ public class KubernetesConfigMapConfigurationProvider : ConfigurationProvider, I
     /// <summary>
     /// Generates a string representing this provider name and relevant details.
     /// </summary>
-    /// <returns> The configuration name. </returns>
+    /// <returns>The configuration name.</returns>
     public override string ToString()
         => $"{GetType().Name} ({(Source.Optional ? "Optional" : "Required")})";
 }
