@@ -65,6 +65,7 @@ public class KubernetesConfigMapConfigurationProvider : ConfigurationProvider, I
                 case WatchEventType.Added:
                 case WatchEventType.Modified:
                 case WatchEventType.Deleted:
+                    Thread.Sleep(Source.ReloadDelay);
                     Load();
                     break;
                 case WatchEventType.Error:
