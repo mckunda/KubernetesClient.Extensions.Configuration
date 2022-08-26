@@ -10,7 +10,7 @@
       - '*.x'
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     
     steps:
