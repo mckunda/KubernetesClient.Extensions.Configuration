@@ -10,7 +10,7 @@
       - '*.x'
 
 jobs:
-  create-tag:
+  release:
     runs-on: ubuntu-latest
     
     steps:
@@ -30,9 +30,16 @@ jobs:
         with:
           node-version: 'lts/*'
       - name: Install semantic-release plugins
-        run: npm install @semantic-release/git @semantic-release/changelog
-      - name: Release
+        run: npm install @semantic-release/git @semantic-release/changelog @semantic-release/exec
+      - name: Get new version
+        run: |
+          npx semantic-release --dry-run
+          test -e .VERSION || touch .NORELEASE
+      - name: Release tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release 
-        
+        run: npx semantic-release
+      - name: Publish to NuGet if release is detected
+        run: |
+          test -e .NORELEASE || dotnet pack -p:Version=$(cat .VERSION) -c Release --include-symbols -o . && \
+          dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_KEY }}
