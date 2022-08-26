@@ -7,18 +7,18 @@ public class KubernetesConfigMapConfigurationSource : IConfigurationSource
     /// <summary>
     /// Determines if loading the file is optional.
     /// </summary>
-    public bool Optional { get; set; } = true;
+    public bool Optional { get; set; }
 
     /// <summary>
     /// Determines whether the source will be loaded if the underlying file changes.
     /// </summary>
-    public bool ReloadOnChange { get; set; } = true;
+    public bool ReloadOnChange { get; set; }
 
     /// <summary>
     /// Number of milliseconds that reload will wait before calling Load. This helps
-    /// avoid triggering reload before a file is completely written. Default is 250.
+    /// avoid triggering reload before a file is completely written.
     /// </summary>
-    public int ReloadDelay { get; set; } = 250;
+    public int ReloadDelay { get; set; }
 
 
     /// <summary>
