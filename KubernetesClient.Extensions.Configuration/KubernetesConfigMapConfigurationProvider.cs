@@ -146,14 +146,27 @@ public class KubernetesConfigMapConfigurationProvider : ConfigurationProvider, I
     /// string representation of <see cref="ConfigurationProvider"/>-compatible
     /// key for <see cref="ConfigurationProvider.Data"/>
     /// </returns>
+    /// <exception cref="ArgumentException">
+    /// If any of arguments is null, empty or whitespace 
+    /// </exception>
     /// <remarks>
     /// All non-alphanumeric character are deleted from the resulting string. Additionally, all digits are skipped
     /// until the first occurrence of an alphabetical character.<br/>
     /// If the original key starts with ".", the prefix won't be added.<br/>
     /// If the original key ends with ".", then all dots of the original key will be deleted before processing.
     /// </remarks>
-    private static string ConvertKey(string key, string prefix)
+    private static string ConvertKey(string? key, string? prefix)
     {
+        if (string.IsNullOrWhiteSpace(prefix))
+        {
+            throw new ArgumentException("Argument cannot be empty", nameof(prefix));
+        }
+        
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            throw new ArgumentException("Argument cannot be empty", nameof(key));
+        }
+        
         var newKey = key;
 
         if (key.EndsWith('.'))
