@@ -107,8 +107,7 @@ public class KubernetesConfigMapConfigurationProvider : ConfigurationProvider, I
 
             foreach (var kvp in configMap.Data)
             {
-                var newKey = $"{configMap.Metadata.Name}:{kvp.Key.Replace('.', ':')}";
-                Data.Add(newKey, kvp.Value);
+                Data.Add(ConvertKey(kvp.Key, configMap.Name()), kvp.Value);
             }
 
             if (configMap.BinaryData.Count == 0)
@@ -118,19 +117,7 @@ public class KubernetesConfigMapConfigurationProvider : ConfigurationProvider, I
 
             foreach (var kvp in configMap.BinaryData)
             {
-                var newKey = kvp.Key;
-
-                if (kvp.Key.EndsWith('.'))
-                {
-                    newKey = newKey.Replace(".", "");
-                }
-
-                if (!kvp.Key.StartsWith('.'))
-                {
-                    newKey = $"{configMap.Metadata.Name}:{newKey}";
-                }
-
-                Data.Add(newKey, Convert.ToBase64String(kvp.Value));
+                Data.Add(ConvertKey(kvp.Key, configMap.Name()), Convert.ToBase64String(kvp.Value));
             }
         }
 
