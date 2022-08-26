@@ -1,0 +1,29 @@
+﻿on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set tag var
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore -c Release
+      - name: Build
+        env:
+          REPO_TAG: ${{ steps.vars.outputs.tag }}
+        run: dotnet build -p:Version=${REPO_TAG#v} -c Release --no-restore
+      - name: Package
+        run: dotnet pack -p:Version=${REPO_TAG#v} -c Release --no-build --include-symbols -o .
+      - name: Publish
+        run: dotnet nuget push . -k ${NUGET_KEY}
+        
