@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using k8s;
+using Microsoft.Extensions.Configuration;
 
-namespace KubernetesClient.Extensions.Configuration;
+namespace KubeOps.KubernetesClient.Extensions.Configuration;
 
-public class KubernetesConfigMapConfigurationSource : IConfigurationSource
+public class KubeResourceConfigurationSource : IConfigurationSource
 {
     /// <summary>
     /// Determines if loading the file is optional.
@@ -20,6 +21,17 @@ public class KubernetesConfigMapConfigurationSource : IConfigurationSource
     /// </summary>
     public int ReloadDelay { get; set; }
 
+    /// <summary>
+    /// Kubernetes label selector for config map
+    /// </summary>
+    public string? LabelSelector { get; set; }
+    
+    /// <summary>
+    /// Whether to use default selector
+    /// ("app=<see cref="KubernetesClientConfiguration.Host"/>")
+    /// when <see cref="LabelSelector"/> is null
+    /// </summary>
+    public bool DefaultSelector { get; set; }
 
     /// <summary>
     /// Builds the <see cref="IConfigurationProvider"/> for this source.
@@ -28,6 +40,6 @@ public class KubernetesConfigMapConfigurationSource : IConfigurationSource
     /// <returns>A <see cref="IConfigurationProvider"/></returns>
     public IConfigurationProvider Build(IConfigurationBuilder builder)
     {
-        return new KubernetesConfigMapConfigurationProvider(this);
+        return new KubeResourceConfigurationProvider(this);
     }
 }
