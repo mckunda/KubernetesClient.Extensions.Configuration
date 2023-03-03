@@ -1,3 +1,10 @@
+# [1.0.0-dev.3](https://github.com/mckunda/KubernetesClient.Extensions.Configuration/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2023-03-03)
+
+
+### Features
+
+* add secrets watcher ([f11082e](https://github.com/mckunda/KubernetesClient.Extensions.Configuration/commit/f11082e9ad26275c6af74aa25e96ab4327c7f0bb))
+
 # [1.0.0-dev.2](https://github.com/mckunda/KubernetesClient.Extensions.Configuration/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2022-08-26)
 
 
